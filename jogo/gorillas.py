@@ -1,4 +1,4 @@
-import curses
+import curses, random
 # import time
 
 menu = ['Play', 'Ranking', 'Exit']
@@ -22,16 +22,23 @@ def print_menu(stdscr, selected_row_idx):
     stdscr.refresh()
 
 def Playing(stdscr):
-    pad = curses.newpad(100, 100)
+    pad = curses.newpad(160, 200)
     stdscr.refresh()
-
     curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLUE)
 
     for i in range(100):
-        for j in range(26):
+        for j in range(50):
             pad.addstr('*', curses.color_pair(2))
-    
-    pad.refresh(0, 0, 5, 5, 25, 75)
+    for k in range(1):
+        h = random.randint(10, 26)
+        c = 0
+        pad.refresh(0, 0, h, c, 26, c+17)
+        for m in range(8):
+            h = random.randint(10, 26)
+            c = c + 17
+            pad.refresh(0, 0, h, c, 26, c+17)
+        
+        stdscr.refresh()
     stdscr.getch()
 
 def main(stdscr):
