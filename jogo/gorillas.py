@@ -6,7 +6,7 @@ menu = ['Play', 'Ranking', 'Exit']
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
     h, w = stdscr.getmaxyx()
-
+    
     stdscr.addstr(10, w//2 - len('GORILLAS')//2, 'GORILLAS')
     
     for idx, row in enumerate(menu):
@@ -21,11 +21,25 @@ def print_menu(stdscr, selected_row_idx):
 
     stdscr.refresh()
 
+def Playing(stdscr):
+    pad = curses.newpad(100, 100)
+    stdscr.refresh()
+
+    curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLUE)
+
+    for i in range(100):
+        for j in range(26):
+            pad.addstr('*', curses.color_pair(2))
+    
+    pad.refresh(0, 0, 5, 5, 25, 75)
+    stdscr.getch()
+
 def main(stdscr):
     curses.curs_set(0)
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
     current_row_idx = 0
+    
 
     print_menu(stdscr, current_row_idx)
 
@@ -38,7 +52,13 @@ def main(stdscr):
         elif key == curses.KEY_DOWN and current_row_idx < len(menu) - 1:
             current_row_idx += 1
         elif key == curses.KEY_ENTER or key in [10, 13]:
-            stdscr.addstr(0, 0, "You pressed {}".format(menu[current_row_idx]))
+            if(menu[current_row_idx] == 'Play'):
+                Playing(stdscr)
+            elif(menu[current_row_idx] == 'Ranking'):
+                stdscr.addstr('hey')
+            elif(menu[current_row_idx] == 'Exit'):
+                stdscr.endwin()
+
             stdscr.refresh()
             stdscr.getch()
 
