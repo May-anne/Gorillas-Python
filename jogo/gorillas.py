@@ -45,11 +45,14 @@ def Playing(stdscr):
                 hmacaco2=h-1
                 cmacaco2=int(c+17/2)
 
+
         #mamaco 1
         stdscr.addstr(hmacaco1-2,cmacaco1+1,'o')
         stdscr.addstr(hmacaco1-1,cmacaco1,'/|\\')
         stdscr.addstr(hmacaco1,cmacaco1,'/ \\')
-    
+        
+        stdscr.refresh()
+        
         #mamaco 2
         stdscr.addstr(hmacaco2-2,cmacaco2+1,'o')
         stdscr.addstr(hmacaco2-1,cmacaco2,'/|\\')
