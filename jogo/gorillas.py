@@ -22,6 +22,7 @@ def print_menu(stdscr, selected_row_idx):
     stdscr.refresh()
 
 def Playing(stdscr):
+
     pad = curses.newpad(160, 200)
     stdscr.refresh()
     curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLUE)
@@ -33,11 +34,28 @@ def Playing(stdscr):
         h = random.randint(10, 26)
         c = 0
         pad.refresh(0, 0, h, c, 26, c+17)
+        if(k==0):
+            hmacaco1=h-1
+            cmacaco1=int((c+17)/2)
         for m in range(8):
             h = random.randint(10, 26)
             c = c + 17
             pad.refresh(0, 0, h, c, 26, c+17)
-        
+            if(m==7): 
+                hmacaco2=h-1
+                cmacaco2=int(c+17/2)
+
+        #mamaco 1
+        stdscr.addstr(hmacaco1-2,cmacaco1+1,'o')
+        stdscr.addstr(hmacaco1-1,cmacaco1,'/|\\')
+        stdscr.addstr(hmacaco1,cmacaco1,'/ \\')
+    
+        #mamaco 2
+        stdscr.addstr(hmacaco2-2,cmacaco2+1,'o')
+        stdscr.addstr(hmacaco2-1,cmacaco2,'/|\\')
+        stdscr.addstr(hmacaco2,cmacaco2,'/ \\')
+
+        #stdscr.addstr(hmacaco2,cmacaco2,mamaco2)
         stdscr.refresh()
     stdscr.getch()
 
