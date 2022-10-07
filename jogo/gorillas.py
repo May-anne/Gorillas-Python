@@ -74,7 +74,41 @@ def Playing(stdscr):
         stdscr.addstr(hmacaco2,cmacaco2,'/ \\')
 
         stdscr.refresh()
-    stdscr.getch()
+
+    vez=0
+    
+    while(True):
+        
+        if(vez%2==0): #vez do macaco 1
+
+            stdscr.addstr(1,1,'Angulo:')
+            stdscr.refresh()
+            stdscr.move(1,8)
+
+            resp=stdscr.getstr()
+            stdscr.addstr(1,15,resp)
+
+            stdscr.getch()
+            # while(True):
+            #     key=stdscr.getkey()
+            #     if(key=='KEY_ENTER'):
+            #         break
+            #     resp+=key
+                
+            
+            stdscr.refresh()
+            #stdscr.addstr(1,10,resp)
+            #stdscr.refresh()
+
+    
+        
+        else:         #vez do macaco 2
+            pass
+
+
+
+        vez+=1
+    #stdscr.getch()
 
 #Borda do jogo
 def moldura(stdscr):
