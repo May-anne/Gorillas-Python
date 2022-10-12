@@ -1,4 +1,5 @@
 import curses, random, math, time
+import numpy as np
 
 menu = ['Play', 'Ranking', 'Exit']
 h = 41
@@ -46,14 +47,14 @@ def Playing(stdscr):
         for j in range(50):
             pad.addstr('*', curses.color_pair(2))
     for k in range(1):
-        h = random.randint(20, 40)
+        h = random.randint(30, 40)
         c = 0
         pad.refresh(0, 0, h, c+1, 40, c+17)
         if(k==0):
             hmacaco1=h-1
             cmacaco1=int((c+17)/2)
         for m in range(8):
-            h = random.randint(20, 40)
+            h = random.randint(30, 40)
             c = c + 17
             pad.refresh(0, 0, h, c+1, 40, c+17)
             if(m==7): 
@@ -83,17 +84,24 @@ def Playing(stdscr):
             curses.curs_set(1)
 
             stdscr.addstr(1,2,'Angulo:')
-            angulo1 = float(stdscr.getstr())
+            angulo = int(stdscr.getstr())
             stdscr.refresh()
 
             stdscr.addstr(2,2,'Velocidade: ')
-            velocidade1 = float(stdscr.getstr())
+            vel0= int(stdscr.getstr())
             stdscr.refresh()
 
             curses.noecho()
             curses.curs_set(0)
 
-            vel1y = int(velocidade1*math.sin(angulo1*math.pi/180))
+            angRAD = np.deg2rad(angulo)
+            g = 10
+
+            alcanceMax = round(((vel0**2) * np.sin(2*angRAD)) / g, 1)
+            alturaMax = round((vel0**2) * (np.sin(angRAD))**2 / (2*g), 1)
+            tempoTotal = round((((2*vel0) * np.sin(angRAD)) / g), 1)
+
+            t = np.arange(0, tempoTotal, 0.1)
 
             bananapad = curses.newpad(160, 200)
 
@@ -101,16 +109,14 @@ def Playing(stdscr):
                 for j in range(50):
                     curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_YELLOW)
                     bananapad.addstr('Z', curses.color_pair(3))
-                    x = 0
-                    t = 0
-            for k in range(50):
-                t = t + 1
-                x = x + 10
-                y = int(30 - 5*t*t + vel1y*t)
-                stdscr.refresh()
 
+            for t in np.arange(0, tempoTotal, 0.1):
+                x = int(abs(vel0) * np.cos(angRAD) * t)
+                y = int(hmacaco1 - (abs(vel0) * np.sin(angRAD) * t) + ((g*(t**2))/2))
+                stdscr.refresh()
+                
                 bananapad.refresh(0, 0, y, x, y, x)
-                time.sleep(0.5)
+                time.sleep(0.3)
                 
 
             stdscr.refresh()
