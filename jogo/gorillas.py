@@ -1,8 +1,7 @@
-import curses, random
-# import time
+import curses, random, math, time
 
 menu = ['Play', 'Ranking', 'Exit']
-h = 27
+h = 41
 w = 154
 
 #Menu da página inicial
@@ -47,16 +46,16 @@ def Playing(stdscr):
         for j in range(50):
             pad.addstr('*', curses.color_pair(2))
     for k in range(1):
-        h = random.randint(10, 26)
+        h = random.randint(20, 40)
         c = 0
-        pad.refresh(0, 0, h, c+1, 26, c+17)
+        pad.refresh(0, 0, h, c+1, 40, c+17)
         if(k==0):
             hmacaco1=h-1
             cmacaco1=int((c+17)/2)
         for m in range(8):
-            h = random.randint(10, 26)
+            h = random.randint(20, 40)
             c = c + 17
-            pad.refresh(0, 0, h, c+1, 26, c+17)
+            pad.refresh(0, 0, h, c+1, 40, c+17)
             if(m==7): 
                 hmacaco2=h-1
                 cmacaco2=int(c+17/2)
@@ -78,28 +77,44 @@ def Playing(stdscr):
     vez=0
     
     while(True):
-        
+
         if(vez%2==0): #vez do macaco 1
+            curses.echo()
+            curses.curs_set(1)
 
-            stdscr.addstr(1,1,'Angulo:')
+            stdscr.addstr(1,2,'Angulo:')
+            angulo1 = float(stdscr.getstr())
             stdscr.refresh()
-            stdscr.move(1,8)
 
-            resp=stdscr.getstr()
-            stdscr.addstr(1,15,resp)
+            stdscr.addstr(2,2,'Velocidade: ')
+            velocidade1 = float(stdscr.getstr())
+            stdscr.refresh()
 
-            stdscr.getch()
-            # while(True):
-            #     key=stdscr.getkey()
-            #     if(key=='KEY_ENTER'):
-            #         break
-            #     resp+=key
+            curses.noecho()
+            curses.curs_set(0)
+
+            vel1y = int(velocidade1*math.sin(angulo1*math.pi/180))
+
+            bananapad = curses.newpad(160, 200)
+
+            for i in range(100):
+                for j in range(50):
+                    curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_YELLOW)
+                    bananapad.addstr('Z', curses.color_pair(3))
+                    x = 0
+                    t = 0
+            for k in range(50):
+                t = t + 1
+                x = x + 10
+                y = int(30 - 5*t*t + vel1y*t)
+                stdscr.refresh()
+
+                bananapad.refresh(0, 0, y, x, y, x)
+                time.sleep(0.5)
                 
-            
-            stdscr.refresh()
-            #stdscr.addstr(1,10,resp)
-            #stdscr.refresh()
 
+            stdscr.refresh()
+            stdscr.getch()
     
         
         else:         #vez do macaco 2
@@ -112,10 +127,10 @@ def Playing(stdscr):
 
 #Borda do jogo
 def moldura(stdscr):
-    for i in range(27):
+    for i in range(h+1):
         stdscr.addstr(i, 0, '#')
         stdscr.addstr(i, w, '#')
-    for i in range(155):
+    for i in range(w):
         stdscr.addstr(0, i, '#')
         stdscr.addstr(h, i, '#')
 

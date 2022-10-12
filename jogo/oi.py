@@ -37,7 +37,7 @@ def Playing(stdscr):
     stdscr.clear()
     stdscr.refresh()'''
 
-    moldura(stdscr)
+    #moldura(stdscr)
 
     pad = curses.newpad(160, 200)
     stdscr.refresh()
@@ -47,16 +47,16 @@ def Playing(stdscr):
         for j in range(50):
             pad.addstr('*', curses.color_pair(2))
     for k in range(1):
-        h = random.randint(10, 26)
+        h = random.randint(10, 46)
         c = 0
-        pad.refresh(0, 0, h, c+1, 26, c+17)
+        pad.refresh(0, 0, h, c+1, 46, c+17)
         if(k==0):
             hmacaco1=h-1
             cmacaco1=int((c+17)/2)
         for m in range(8):
-            h = random.randint(10, 26)
+            h = random.randint(10, 46)
             c = c + 17
-            pad.refresh(0, 0, h, c+1, 26, c+17)
+            pad.refresh(0, 0, h, c+1, 46, c+17)
             if(m==7): 
                 hmacaco2=h-1
                 cmacaco2=int(c+17/2)
