@@ -42,17 +42,21 @@ def Playing(stdscr): #Função Jogandot
     for k in range(1):
         h = random.randint(30, 40)
         c = 0
-        pad.refresh(0, 0, h, c+1, 40, c+10)
+        pad.refresh(0, 0, h, c+1, 40, c+17)
+        stdscr.refresh()
         if(k==0):
             hmacaco1=h-1
-            cmacaco1=int((c+10)/2)
+            cmacaco1=int((c+17)/2)
         for m in range(8):
             h = random.randint(30, 40)
-            c = c + 10
-            pad.refresh(0, 0, h, c+1, 40, c+10)
+            c = c + 17
+            stdscr.refresh()
+
+            pad.refresh(0, 0, h, c+1, 40, c+17)
+            stdscr.refresh()
             if(m==7): 
                 hmacaco2=h-1
-                cmacaco2=int(c+10/2)
+                cmacaco2=int(c+17/2)
 
         #Primeiro Jogador:
         stdscr.addstr(hmacaco1-2,cmacaco1+1,'o')
@@ -104,7 +108,7 @@ def Playing(stdscr): #Função Jogandot
                 for j in range(50):
                     curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_YELLOW)
                     bananapad.addstr('Z', curses.color_pair(3))
-                    
+
             for t in np.arange(0, tempoTotal+5, 0.1):
                 x = int((cmacaco1+3) + abs(vel0) * np.cos(angRAD) * t)
                 y = int((hmacaco1-1) - (abs(vel0) * np.sin(angRAD) * t) + ((g*(t**2))/2))
@@ -112,7 +116,18 @@ def Playing(stdscr): #Função Jogandot
                 try:
                     bananapad.refresh(0, 0, y, x, y, x)
                     time.sleep(0.3)
+                    stdscr.refresh()
+                    stdscr.addstr(5, 10, 'y = {}'.format(str(y))) #Informa o valor final de x e y
+                    stdscr.addstr(7, 12, 'x = {}'.format(str(x)))
+                    #stdscr.addstr(8, 10, 'c = {}'.format(c))
+                    #stdscr.addstr(9, 10, 'h = {}'.format(h))
+
+                    if(c % x == 0):
+                        stdscr.addstr(10, 10, "Bateu em algo")
+                        stdscr.refresh()
+
                 except curses.error:
+                    #vez = vez + 1
                     pass
                 
             stdscr.refresh()
