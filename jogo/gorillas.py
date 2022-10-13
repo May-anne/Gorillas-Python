@@ -26,16 +26,9 @@ def print_menu(stdscr, selected_row_idx):
 
     stdscr.refresh()
 
-def Playing(stdscr):
-    stdscr.clear()
+def Playing(stdscr): #Função Jogandot
 
-    '''stdscr.addstr('Informe seu nome: ')
-    curses.curs_set(1)
-    nome = stdscr.getstr(0,19, 30)
-    
-    curses.curs_set(0)
     stdscr.clear()
-    stdscr.refresh()'''
 
     moldura(stdscr)
 
@@ -79,57 +72,98 @@ def Playing(stdscr):
     
     while(True):
 
-        if(vez%2==0): #vez do macaco 1
+        if(vez%2==0): #Jogador 1
             curses.echo()
             curses.curs_set(1)
 
-            stdscr.addstr(1,2,'Angulo:')
+            stdscr.addstr(1, 2, "Nome Jogador 1: ")
+            jogador1 = (stdscr.getstr())
+            stdscr.refresh()
+
+            stdscr.addstr(2,2,'Angulo:')
             angulo = int(stdscr.getstr())
             stdscr.refresh()
 
-            stdscr.addstr(2,2,'Velocidade: ')
+            stdscr.addstr(3,2,'Velocidade: ')
             vel0= int(stdscr.getstr())
             stdscr.refresh()
 
             curses.noecho()
             curses.curs_set(0)
 
+            #lancamento
+            # angulo = np.deg2rad(angulo)
+
+            # bananapad = curses.newpad(160, 200)
+
+            # x=int(vel0*np.cos(angulo))
+
+            # for i in range(100):
+
+            #     for j in range(50):
+            #         curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_YELLOW)
+            #         bananapad.addstr('Z', curses.color_pair(3))
+            
+            # for i in range(100):
+                
+            #     y=int(np.tan(angulo)*x**2-0.2*x+hmacaco1-1)
+
+            #     try:
+            #         bananapad.refresh(0, 0, y, x+cmacaco1+2, y, x+cmacaco1+2)
+            #         time.sleep(0.2)
+            #     except curses.error:
+            #         pass
+            #     stdscr.refresh()
+          
+            #     x+=vel
+            #dos gerais para lançamento:
             angRAD = np.deg2rad(angulo)
             g = 10
-
             alcanceMax = round(((vel0**2) * np.sin(2*angRAD)) / g, 1)
             alturaMax = round((vel0**2) * (np.sin(angRAD))**2 / (2*g), 1)
             tempoTotal = round((((2*vel0) * np.sin(angRAD)) / g), 1)
-
             t = np.arange(0, tempoTotal, 0.1)
-
+            #PAD de lançamento:
             bananapad = curses.newpad(160, 200)
-
             for i in range(100):
                 for j in range(50):
                     curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_YELLOW)
                     bananapad.addstr('Z', curses.color_pair(3))
-
-            for t in np.arange(0, tempoTotal, 0.1):
+            for t in np.arange(0, tempoTotal+5, 0.1):
                 x = int((cmacaco1+3) + abs(vel0) * np.cos(angRAD) * t)
                 y = int((hmacaco1-1) - (abs(vel0) * np.sin(angRAD) * t) + ((g*(t**2))/2))
-                stdscr.refresh()
-                
-                bananapad.refresh(0, 0, y, x, y, x)
-                time.sleep(0.3)
-                
 
+                try:
+                    bananapad.refresh(0, 0, y, x, y, x)
+                    time.sleep(0.3)
+                except curses.error:
+                    pass
+                
             stdscr.refresh()
             stdscr.getch()
     
-        
-        else:         #vez do macaco 2
+        else: #Jogador 2
             pass
+            '''
+            curses.echo()
+            curses.curs_set(1)
 
+            stdscr.addstr(1, 2, "Nome Jogador 2: ")
+            jogador1 = (stdscr.getstr())
+            stdscr.refresh()
 
+            stdscr.addstr(2,2,'Angulo:')
+            angulo = int(stdscr.getstr())
+            stdscr.refresh()
+
+            stdscr.addstr(3,2,'Velocidade: ')
+            vel0= int(stdscr.getstr())
+            stdscr.refresh()
+
+            curses.noecho()
+            curses.curs_set(0)'''
 
         vez+=1
-    #stdscr.getch()
 
 #Borda do jogo
 def moldura(stdscr):
