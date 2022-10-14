@@ -34,7 +34,12 @@ def Playing(stdscr): #Função Jogandot
 
     pad = curses.newpad(160, 200)
     stdscr.refresh()
-    curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLUE)
+
+    #Pares de cores
+    curses.init_pair(2, curses.COLOR_WHITE, curses.COLOR_BLUE) #Cor dos prédios
+    curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_YELLOW) #Cor da banana
+    curses.init_pair(4, curses.COLOR_RED, curses.COLOR_BLACK) #Cor "Você errou."
+    curses.init_pair(5, curses.COLOR_GREEN, curses.COLOR_BLACK) #Cor "Você acertou!"
 
     for i in range(100):
         for j in range(50):
@@ -84,7 +89,7 @@ def Playing(stdscr): #Função Jogandot
             jogador1 = (stdscr.getstr())
             stdscr.refresh()
 
-            stdscr.addstr(2,2,'Angulo:')
+            stdscr.addstr(2,2,'Angulo: ')
             angulo = int(stdscr.getstr())
             stdscr.refresh()
 
@@ -106,7 +111,6 @@ def Playing(stdscr): #Função Jogandot
             bananapad = curses.newpad(160, 200)
             for i in range(100):
                 for j in range(50):
-                    curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_YELLOW)
                     bananapad.addstr('Z', curses.color_pair(3))
 
             for t in np.arange(0, tempoTotal+5, 0.1):
@@ -115,20 +119,28 @@ def Playing(stdscr): #Função Jogandot
 
                 try:
                     bananapad.refresh(0, 0, y, x, y, x)
-                    time.sleep(0.3)
+                    time.sleep(0.1)
                     stdscr.refresh()
-                    stdscr.addstr(5, 10, 'y = {}'.format(str(y))) #Informa o valor final de x e y
-                    stdscr.addstr(7, 12, 'x = {}'.format(str(x)))
-                    #stdscr.addstr(8, 10, 'c = {}'.format(c))
+                    stdscr.addstr(5, 10, 'y = {}'.format(str(y))) #Informa os valores de x e y conforme o sleep
+                    stdscr.addstr(7, 10, 'x = {}'.format(str(x)))
+                    #stdscr.addstr(8, 10, 'c = {}'.format(c)) (c e h são estáticos aqui)
                     #stdscr.addstr(9, 10, 'h = {}'.format(h))
 
-                    if(c % x == 0):
-                        stdscr.addstr(10, 10, "Bateu em algo")
+                    #Em algum momento, se x e y forem iguais a esses valores, você acertou.
+                    if((x in range(143, 147) and (y in range(hmacaco2-2, hmacaco2+1)))): 
+                        stdscr.addstr(10, 10, "Você acertou!", curses.color_pair(5))
                         stdscr.refresh()
+                        bananapad.clear()
+                        break
+                    elif(x >= 146 or y >= 40): #Se passar da borda, você errou.
+                        stdscr.addstr(10, 10, 'Você errou.', curses.color_pair(4))
+                        stdscr.refresh()
+                        bananapad.clear()
 
                 except curses.error:
-                    #vez = vez + 1
+                    stdscr.addstr(10, 10, 'Você errou.', curses.color_pair(4)) #Reforço (?)
                     pass
+
                 
             stdscr.refresh()
             stdscr.getch()
@@ -158,12 +170,13 @@ def Playing(stdscr): #Função Jogandot
 
 #Borda do jogo
 def moldura(stdscr):
+    curses.init_pair(6, curses.COLOR_WHITE, curses.COLOR_CYAN)
     for i in range(h+1):
-        stdscr.addstr(i, 0, '#')
-        stdscr.addstr(i, w, '#')
+        stdscr.addstr(i, 0, '#', curses.color_pair(6))
+        stdscr.addstr(i, w, '#', curses.color_pair(6))
     for i in range(w):
-        stdscr.addstr(0, i, '#')
-        stdscr.addstr(h, i, '#')
+        stdscr.addstr(0, i, '#', curses.color_pair(6))
+        stdscr.addstr(h, i, '#', curses.color_pair(6))
 
 def main(stdscr):
     curses.curs_set(0)
