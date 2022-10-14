@@ -40,6 +40,8 @@ def Playing(stdscr): #Função Jogandot
     curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_YELLOW) #Cor da banana
     curses.init_pair(4, curses.COLOR_RED, curses.COLOR_BLACK) #Cor "Você errou."
     curses.init_pair(5, curses.COLOR_GREEN, curses.COLOR_BLACK) #Cor "Você acertou!"
+    hpredios = []
+    cpredios = []
 
     for i in range(100):
         for j in range(50):
@@ -53,8 +55,12 @@ def Playing(stdscr): #Função Jogandot
             hmacaco1=h-1
             cmacaco1=int((c+17)/2)
         for m in range(8):
+            stdscr.refresh()
             h = random.randint(30, 40)
+            hpredios.append(h)
+
             c = c + 17
+            cpredios.append(c)
             stdscr.refresh()
 
             pad.refresh(0, 0, h, c+1, 40, c+17)
@@ -132,14 +138,15 @@ def Playing(stdscr): #Função Jogandot
                         stdscr.refresh()
                         bananapad.clear()
                         break
-                    elif(x >= 146 or y >= 40): #Se passar da borda, você errou.
-                        stdscr.addstr(10, 10, 'Você errou.', curses.color_pair(4))
+                    elif(x in cpredios and y in hpredios):
+                        stdscr.addstr(10, 10, "Você errou.", curses.color_pair(4))
                         stdscr.refresh()
                         bananapad.clear()
+                        break
 
                 except curses.error:
-                    stdscr.addstr(10, 10, 'Você errou.', curses.color_pair(4)) #Reforço (?)
-                    pass
+                        pass
+                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
 
                 
             stdscr.refresh()
