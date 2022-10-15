@@ -40,8 +40,8 @@ def Playing(stdscr): #Função Jogandot
     curses.init_pair(3, curses.COLOR_WHITE, curses.COLOR_YELLOW) #Cor da banana
     curses.init_pair(4, curses.COLOR_RED, curses.COLOR_BLACK) #Cor "Você errou."
     curses.init_pair(5, curses.COLOR_GREEN, curses.COLOR_BLACK) #Cor "Você acertou!"
+    
     hpredios = []
-    cpredios = []
 
     for i in range(100):
         for j in range(50):
@@ -58,9 +58,8 @@ def Playing(stdscr): #Função Jogandot
             stdscr.refresh()
             h = random.randint(30, 40)
             hpredios.append(h)
-
+    
             c = c + 17
-            cpredios.append(c)
             stdscr.refresh()
 
             pad.refresh(0, 0, h, c+1, 40, c+17)
@@ -110,7 +109,7 @@ def Playing(stdscr): #Função Jogandot
             angRAD = np.deg2rad(angulo)
             g = 10
             alcanceMax = round(((vel0**2) * np.sin(2*angRAD)) / g, 1)
-            alturaMax = round((vel0**2) * (np.sin(angRAD))**2 / (2*g), 1)
+            alturaMax = round((vel0*2) * (np.sin(angRAD))*2 / (2*g), 1)
             tempoTotal = round((((2*vel0) * np.sin(angRAD)) / g), 1)
 
             #PAD de lançamento:
@@ -122,39 +121,76 @@ def Playing(stdscr): #Função Jogandot
             for t in np.arange(0, tempoTotal+5, 0.1):
                 x = int((cmacaco1+3) + abs(vel0) * np.cos(angRAD) * t)
                 y = int((hmacaco1-1) - (abs(vel0) * np.sin(angRAD) * t) + ((g*(t**2))/2))
-
                 try:
+                    
                     bananapad.refresh(0, 0, y, x, y, x)
                     time.sleep(0.1)
+
                     stdscr.refresh()
+
                     stdscr.addstr(5, 10, 'y = {}'.format(str(y))) #Informa os valores de x e y conforme o sleep
                     stdscr.addstr(7, 10, 'x = {}'.format(str(x)))
-                    #stdscr.addstr(8, 10, 'c = {}'.format(c)) (c e h são estáticos aqui)
-                    #stdscr.addstr(9, 10, 'h = {}'.format(h))
 
+                    stdscr.addstr(8, 10, str(hpredios))
+                    #stdscr.addstr(9, 10, str(cpredios1))
+                    flag = 17
                     #Em algum momento, se x e y forem iguais a esses valores, você acertou.
+
                     if((x in range(143, 147) and (y in range(hmacaco2-2, hmacaco2+1)))): 
                         stdscr.addstr(10, 10, "Você acertou!", curses.color_pair(5))
                         stdscr.refresh()
                         bananapad.clear()
                         break
-                    elif(x in cpredios and y in hpredios):
-                        stdscr.addstr(10, 10, "Você errou.", curses.color_pair(4))
-                        stdscr.refresh()
+                    elif(y in range(hpredios[0], 40) and x in range(17, 35)):
+                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y in range(hpredios[1], 40) and x in range(35, 52)):
+                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y in range(hpredios[2], 40) and x in range(52, 69)):
+                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y in range(hpredios[3], 40) and x in range(69, 86)):
+                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y in range(hpredios[4], 40) and x in range(86, 103)):
+                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y in range(hpredios[5], 40) and x in range(103, 120)):
+                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y in range(hpredios[6], 40) and x in range(120, 137)):
+                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y in range(hpredios[7], 40) and x in range(137, 154)):
+                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
                         bananapad.clear()
                         break
 
                 except curses.error:
                         pass
                         stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
-
+                
                 
             stdscr.refresh()
             stdscr.getch()
-    
+            
         else: #Jogador 2
             pass
-            '''
+            stdscr.addstr(1,2,"\t\t\t\t\t")
+            stdscr.addstr(2,2,"\t\t\t\t\t")
+            stdscr.addstr(3,2,"\t\t\t\t\t")
+            stdscr.addstr(5,10,"\t\t\t\t\t")
+            stdscr.addstr(7,10,"\t\t\t\t\t")
+            stdscr.addstr(10,10,"\t\t\t\t\t")
+            bananapad.clear()
             curses.echo()
             curses.curs_set(1)
 
@@ -166,12 +202,12 @@ def Playing(stdscr): #Função Jogandot
             angulo = int(stdscr.getstr())
             stdscr.refresh()
 
-            stdscr.addstr(3,2,'Velocidade: ')
+            stdscr.addstr(3,2,'Velocidade:')
             vel0= int(stdscr.getstr())
             stdscr.refresh()
 
             curses.noecho()
-            curses.curs_set(0)'''
+            curses.curs_set(0)
 
         vez+=1
 
