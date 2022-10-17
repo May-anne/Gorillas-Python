@@ -48,6 +48,7 @@ def Playing(stdscr): #Função Jogandot
             pad.addstr('*', curses.color_pair(2))
     for k in range(1):
         h = random.randint(30, 40)
+        hpredio1 = h
         c = 0
         pad.refresh(0, 0, h, c+1, 40, c+17)
         stdscr.refresh()
@@ -139,6 +140,10 @@ def Playing(stdscr): #Função Jogandot
                     if((x in range(143, 147) and (y in range(hmacaco2-2, hmacaco2+1)))): 
                         stdscr.addstr(10, 10, "Você acertou!", curses.color_pair(5))
                         stdscr.refresh()
+                        bananapad.clear()
+                        break
+                    elif(y in range(hpredio1, 40) and x in range(0, 17)):
+                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
                         bananapad.clear()
                         break
                     elif(y in range(hpredios[0], 40) and x in range(17, 35)):
