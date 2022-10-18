@@ -113,22 +113,14 @@ def Playing(stdscr): #Função Jogandot
             alturaMax = round((vel0*2) * (np.sin(angRAD))*2 / (2*g), 1)
             tempoTotal = round((((2*vel0) * np.sin(angRAD)) / g), 1)
 
-            #PAD de lançamento:
-            
+            #PADs de lançamento:
             bananapad = curses.newpad(160, 200)
-            # for i in range(100):
-            #     for j in range(50):
-            #         bananapad.addstr('Z', curses.color_pair(3))
-
             macacopad = curses.newpad(160,200)
 
             for t in np.arange(0, tempoTotal+5, 0.1):
-                
-                
-            
+
                 x = int((cmacaco1+3) + abs(vel0) * np.cos(angRAD) * t)
                 y = int((hmacaco1-1) - (abs(vel0) * np.sin(angRAD) * t) + ((g*(t**2))/2))
-
         
                 bananapad.addstr('Z', curses.color_pair(3))
                 macacopad.addstr(' ')
@@ -138,22 +130,14 @@ def Playing(stdscr): #Função Jogandot
                     bananapad.refresh(0, 0, y, x, y, x)
                     time.sleep(0.05)  
                     macacopad.refresh(0, 0, y, x, y, x)
-
-                 
                     
-
                     stdscr.refresh()
 
-                    stdscr.addstr(5, 10, 'y = {}'.format(str(y))) #Informa os valores de x e y conforme o sleep
-                    stdscr.addstr(7, 10, 'x = {}'.format(str(x)))
+                    #stdscr.addstr(5, 10, 'y = {}'.format(str(y))) #Informa os valores de x e y conforme o sleep
+                    #stdscr.addstr(7, 10, 'x = {}'.format(str(x)))
+                    #stdscr.addstr(8, 10, str(hpredios))
 
-                    stdscr.addstr(8, 10, str(hpredios))
-                    
-                    #stdscr.addstr(9, 10, str(cpredios1))
-                
-                    #Em algum momento, se x e y forem iguais a esses valores, você acertou.
-
-                    #VERIFICAÇÃO DE COLISÃO
+                    #VERIFICAÇÃO DE COLISÃO: JOGADOR 1
                     if((x in range(143, 147) and (y in range(hmacaco2-2, hmacaco2+1)))): 
                         stdscr.addstr(10, 10, "Você acertou!", curses.color_pair(5))
                         stdscr.refresh()
@@ -195,6 +179,9 @@ def Playing(stdscr): #Função Jogandot
                         stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
                         bananapad.clear()
                         break
+                    elif(x > 154):
+                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
+                        break
 
                 except curses.error:
                         pass
@@ -206,30 +193,90 @@ def Playing(stdscr): #Função Jogandot
             
         else: #Jogador 2
             pass
-            stdscr.addstr(1,2,"\t\t\t\t\t")
-            stdscr.addstr(2,2,"\t\t\t\t\t")
-            stdscr.addstr(3,2,"\t\t\t\t\t")
-            stdscr.addstr(5,10,"\t\t\t\t\t")
-            stdscr.addstr(7,10,"\t\t\t\t\t")
-            stdscr.addstr(10,10,"\t\t\t\t\t")
-            bananapad.clear()
+
             curses.echo()
             curses.curs_set(1)
 
-            stdscr.addstr(1, 2, "Nome Jogador 2: ")
-            jogador1 = (stdscr.getstr())
+            stdscr.addstr(1, 125, "Nome Jogador 2: ")
+            jogador2 = stdscr.getstr()
             stdscr.refresh()
 
-            stdscr.addstr(2,2,'Angulo:')
-            angulo = int(stdscr.getstr())
+            stdscr.addstr(2,125,'Angulo: ')
+            angulo2 = np.deg2rad(int(stdscr.getstr()))
             stdscr.refresh()
 
-            stdscr.addstr(3,2,'Velocidade:')
-            vel0= int(stdscr.getstr())
+            stdscr.addstr(3,125,'Velocidade: ')
+            vel1= int(stdscr.getstr())
             stdscr.refresh()
 
             curses.noecho()
             curses.curs_set(0)
+
+            tempoTotal1 = round((((2*vel1) * np.sin(angulo2)) / g), 1)
+
+            for t in np.arange(0, tempoTotal1+5, 0.1):
+
+                x1 = int((cmacaco2-1) - abs(vel1) * np.cos(angulo2) * t)
+                y1 = int((hmacaco2-1) - (abs(vel1) * np.sin(angulo2) * t) + ((g*(t**2))/2))
+        
+                bananapad.addstr('Z', curses.color_pair(3))
+                macacopad.addstr(' ')
+                
+                try:
+                    
+                    bananapad.refresh(0, 0, y1, x1, y1, x1)
+                    time.sleep(0.05)  
+                    macacopad.refresh(0, 0, y1, x1, y1, x1)
+                    
+                    stdscr.refresh()
+
+                    stdscr.addstr(5, 10, 'y = {}'.format(str(y1))) #Informa os valores de x e y conforme o sleep
+                    stdscr.addstr(7, 10, 'x = {}'.format(str(x1)))
+
+                    #VERIFICAÇÃO DE COLISÃO: JOGADOR 2
+                    if(y1 in range(hpredios[7], 40) and x1 in range(137, 154)):
+                        stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y1 in range(hpredios[6], 40) and x1 in range(120, 137)):
+                        stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y1 in range(hpredios[5], 40) and x1 in range(103, 120)):
+                        stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y1 in range(hpredios[4], 40) and x1 in range(86, 103)):
+                        stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y1 in range(hpredios[3], 40) and x1 in range(69, 86)):
+                        stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y1 in range(hpredios[2], 40) and x1 in range(52, 69)):
+                        stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y1 in range(hpredios[1], 40) and x1 in range(35, 52)):
+                        stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y1 in range(hpredios[0], 40) and x1 in range(17, 35)):
+                        stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y1 in range(hmacaco1-2, hmacaco1+1) and x1 in range(6, 10)):
+                        stdscr.addstr(10, 125, "Você acertou!", curses.color_pair(5))
+                        bananapad.clear()
+                        break
+
+                except curses.error:
+                        pass
+                        stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
+                
+            stdscr.refresh()
+            stdscr.getch()
 
         vez+=1
 
