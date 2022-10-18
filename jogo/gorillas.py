@@ -114,18 +114,33 @@ def Playing(stdscr): #Função Jogandot
             tempoTotal = round((((2*vel0) * np.sin(angRAD)) / g), 1)
 
             #PAD de lançamento:
+            
             bananapad = curses.newpad(160, 200)
-            for i in range(100):
-                for j in range(50):
-                    bananapad.addstr('Z', curses.color_pair(3))
+            # for i in range(100):
+            #     for j in range(50):
+            #         bananapad.addstr('Z', curses.color_pair(3))
+
+            macacopad = curses.newpad(160,200)
 
             for t in np.arange(0, tempoTotal+5, 0.1):
+                
+                
+            
                 x = int((cmacaco1+3) + abs(vel0) * np.cos(angRAD) * t)
                 y = int((hmacaco1-1) - (abs(vel0) * np.sin(angRAD) * t) + ((g*(t**2))/2))
+
+        
+                bananapad.addstr('Z', curses.color_pair(3))
+                macacopad.addstr(' ')
+                
                 try:
                     
                     bananapad.refresh(0, 0, y, x, y, x)
-                    time.sleep(0.1)
+                    time.sleep(0.05)  
+                    macacopad.refresh(0, 0, y, x, y, x)
+
+                 
+                    
 
                     stdscr.refresh()
 
@@ -133,10 +148,12 @@ def Playing(stdscr): #Função Jogandot
                     stdscr.addstr(7, 10, 'x = {}'.format(str(x)))
 
                     stdscr.addstr(8, 10, str(hpredios))
+                    
                     #stdscr.addstr(9, 10, str(cpredios1))
-                    flag = 17
+                
                     #Em algum momento, se x e y forem iguais a esses valores, você acertou.
 
+                    #VERIFICAÇÃO DE COLISÃO
                     if((x in range(143, 147) and (y in range(hmacaco2-2, hmacaco2+1)))): 
                         stdscr.addstr(10, 10, "Você acertou!", curses.color_pair(5))
                         stdscr.refresh()
