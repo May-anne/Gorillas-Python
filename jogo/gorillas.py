@@ -27,6 +27,8 @@ def print_menu(stdscr, selected_row_idx):
     stdscr.refresh()
 
 def Playing(stdscr): #Função Jogandot
+    jogador1 = ''
+    jogador2 = ''
 
     stdscr.clear()
 
@@ -88,18 +90,22 @@ def Playing(stdscr): #Função Jogandot
     while(True):
 
         if(vez%2==0): #Jogador 1
+            stdscr.refresh()
             curses.echo()
             curses.curs_set(1)
 
-            stdscr.addstr(1, 2, "Nome Jogador 1: ")
-            jogador1 = (stdscr.getstr())
-            stdscr.refresh()
+            if(jogador1 == ''):
+                stdscr.addstr(2, 2, "Nome Jogador 1: ")
+                jogador1 = stdscr.getstr()
+                stdscr.refresh()
+            else:
+                stdscr.addstr(2, 2, 'Nome Jogador 1: {}'.format(jogador1))
 
-            stdscr.addstr(2,2,'Angulo: ')
+            stdscr.addstr(3, 2,'Angulo: ')
             angulo = int(stdscr.getstr())
             stdscr.refresh()
 
-            stdscr.addstr(3,2,'Velocidade: ')
+            stdscr.addstr(4, 2,'Velocidade: ')
             vel0= int(stdscr.getstr())
             stdscr.refresh()
 
@@ -193,19 +199,24 @@ def Playing(stdscr): #Função Jogandot
             
         else: #Jogador 2
             pass
+            stdscr.addstr(3, 2, '            ')
+            stdscr.addstr(4, 2, '                  ')
 
             curses.echo()
             curses.curs_set(1)
 
-            stdscr.addstr(1, 125, "Nome Jogador 2: ")
-            jogador2 = stdscr.getstr()
-            stdscr.refresh()
+            if(jogador2 == ''):
+                stdscr.addstr(2, 125, "Nome Jogador 2: ")
+                jogador2 = stdscr.getstr()
+                stdscr.refresh()
+            else:
+                stdscr.addstr(3, 125, 'Nome Jogador 2: {}'.format(jogador2))
 
-            stdscr.addstr(2,125,'Angulo: ')
+            stdscr.addstr(3, 125,'Angulo: ')
             angulo2 = np.deg2rad(int(stdscr.getstr()))
             stdscr.refresh()
 
-            stdscr.addstr(3,125,'Velocidade: ')
+            stdscr.addstr(4,125,'Velocidade: ')
             vel1= int(stdscr.getstr())
             stdscr.refresh()
 
