@@ -94,19 +94,26 @@ def Playing(stdscr): #Função Jogandot
             curses.echo()
             curses.curs_set(1)
 
+            stdscr.addstr(3, 125, '            ')
+            stdscr.addstr(4, 125, '                  ')
+            stdscr.addstr(10, 125, '                ')
+
             if(jogador1 == ''):
                 stdscr.addstr(2, 2, "Nome Jogador 1: ")
                 jogador1 = stdscr.getstr()
+                moldura(stdscr)
                 stdscr.refresh()
             else:
                 stdscr.addstr(2, 2, 'Nome Jogador 1: {}'.format(jogador1))
 
             stdscr.addstr(3, 2,'Angulo: ')
             angulo = int(stdscr.getstr())
+            moldura(stdscr)
             stdscr.refresh()
 
             stdscr.addstr(4, 2,'Velocidade: ')
             vel0= int(stdscr.getstr())
+            moldura(stdscr)
             stdscr.refresh()
 
             curses.noecho()
@@ -201,6 +208,7 @@ def Playing(stdscr): #Função Jogandot
             pass
             stdscr.addstr(3, 2, '            ')
             stdscr.addstr(4, 2, '                  ')
+            stdscr.addstr(10, 10, '                ')
 
             curses.echo()
             curses.curs_set(1)
@@ -208,16 +216,20 @@ def Playing(stdscr): #Função Jogandot
             if(jogador2 == ''):
                 stdscr.addstr(2, 125, "Nome Jogador 2: ")
                 jogador2 = stdscr.getstr()
+                moldura(stdscr)
                 stdscr.refresh()
             else:
-                stdscr.addstr(3, 125, 'Nome Jogador 2: {}'.format(jogador2))
+                stdscr.refresh()
+                stdscr.addstr(2, 125, 'Nome Jogador 2: {}'.format(jogador2))
 
             stdscr.addstr(3, 125,'Angulo: ')
             angulo2 = np.deg2rad(int(stdscr.getstr()))
+            moldura(stdscr)
             stdscr.refresh()
 
             stdscr.addstr(4,125,'Velocidade: ')
             vel1= int(stdscr.getstr())
+            moldura(stdscr)
             stdscr.refresh()
 
             curses.noecho()
