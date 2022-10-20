@@ -29,25 +29,41 @@ def print_menu(stdscr, selected_row_idx):
 def Stay(stdscr):
     stdscr.clear()
     moldura(stdscr)
-    curses.echo()
-    curses.curs_set(1)
 
-    texto = 'Você deseja continuar? [s/n] '
-    
+    respostas =['sim', 'não']
+    texto = 'Você deseja continuar?'
     stdscr.addstr(10, w//2 - len(texto)//2, texto)
-    resposta = stdscr.getch()
 
-    curses.noecho()
-    curses.curs_set(0)
+    selected = 0
 
-    if(resposta == 's'):
-        Playing(stdscr)
-    elif(resposta == 'n'):
-        stdscr.endwin()
-    else:
-        stdscr.addstr(10, 20, 'Resposta inválida.')
+    while True:
+        stdscr.refresh()
+
+        for idx, row in enumerate(respostas):
+            x = w//2 - len(row)//2
+            y = h//2 - len(respostas)//2 + idx
+            if idx == selected:
+                stdscr.addstr(y, x, row, curses.color_pair(1))
+            else:
+                stdscr.addstr(y, x, row)
+
+        key = stdscr.getch()
+
+        if key == curses.KEY_UP and selected > 0:
+            selected -= 1
+        elif key == curses.KEY_DOWN and selected < len(respostas):
+            selected += 1
+
+        elif key == curses.KEY_ENTER or key in [10, 13]:
+            if(respostas[selected] == 'sim'):
+                Playing(stdscr)
+            elif(respostas[selected] == 'não'):
+                main(stdscr)
+
+        stdscr.refresh()
+        stdscr.getch()
     
-def Playing(stdscr): #Função Jogandot
+def Playing(stdscr): #Função Jogando
     jogador1 = ''
     jogador2 = ''
 
@@ -172,7 +188,7 @@ def Playing(stdscr): #Função Jogandot
                     #stdscr.addstr(8, 10, str(hpredios))
 
                     #VERIFICAÇÃO DE COLISÃO: JOGADOR 1
-                    if((x in range(143, 147) and (y in range(hmacaco2-2, hmacaco2+1)))): 
+                    if((x in range(143, 147) and (y in range(hmacaco2-3, hmacaco2+1)))): 
                         stdscr.addstr(10, 10, "Você acertou!", curses.color_pair(5))
                         stdscr.refresh()
                         bananapad.clear
@@ -316,7 +332,7 @@ def Playing(stdscr): #Função Jogandot
                         stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
                         bananapad.clear()
                         break
-                    elif(y1 in range(hmacaco1-2, hmacaco1+1) and x1 in range(6, 11)):
+                    elif(y1 in range(hmacaco1-3, hmacaco1+1) and x1 in range(6, 11)):
                         stdscr.addstr(10, 125, "Você acertou!", curses.color_pair(5))
                         bananapad.clear()
                         Stay(stdscr)
