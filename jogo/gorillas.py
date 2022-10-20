@@ -8,9 +8,7 @@ w = 154
 #Menu da página inicial
 def print_menu(stdscr, selected_row_idx):
     stdscr.clear()
-    
     moldura(stdscr)
-
     stdscr.addstr(10, w//2 - len('GORILLAS')//2, 'GORILLAS')
     
     #Muda a cor do texto ao descer com setas up e down
@@ -38,7 +36,7 @@ def Stay(stdscr):
 
     while True:
         stdscr.refresh()
-
+        
         for idx, row in enumerate(respostas):
             x = w//2 - len(row)//2
             y = h//2 - len(respostas)//2 + idx
@@ -47,11 +45,12 @@ def Stay(stdscr):
             else:
                 stdscr.addstr(y, x, row)
 
+        stdscr.refresh()
         key = stdscr.getch()
 
         if key == curses.KEY_UP and selected > 0:
             selected -= 1
-        elif key == curses.KEY_DOWN and selected < len(respostas):
+        elif key == curses.KEY_DOWN and selected < len(respostas) - 1:
             selected += 1
 
         elif key == curses.KEY_ENTER or key in [10, 13]:
@@ -362,7 +361,6 @@ def main(stdscr):
     curses.init_pair(1, curses.COLOR_BLACK, curses.COLOR_WHITE)
 
     current_row_idx = 0
-    
     print_menu(stdscr, current_row_idx)
 
     #Loop do Menu: espera resposta do usuário pelo teclado
