@@ -24,7 +24,7 @@ def print_menu(stdscr, selected_row_idx):
 
     stdscr.refresh()
 
-def Stay(stdscr):
+def KeepPlaying(stdscr):
     stdscr.clear()
     moldura(stdscr)
 
@@ -191,7 +191,7 @@ def Playing(stdscr): #Função Jogando
                         stdscr.addstr(10, 10, "Você acertou!", curses.color_pair(5))
                         stdscr.refresh()
                         bananapad.clear
-                        Stay(stdscr)
+                        KeepPlaying(stdscr)
                         break
                     elif(y in range(hpredio1, 40) and x in range(0, 17)):
                         stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
@@ -334,7 +334,7 @@ def Playing(stdscr): #Função Jogando
                     elif(y1 in range(hmacaco1-3, hmacaco1+1) and x1 in range(6, 11)):
                         stdscr.addstr(10, 125, "Você acertou!", curses.color_pair(5))
                         bananapad.clear()
-                        Stay(stdscr)
+                        KeepPlaying(stdscr)
                         break
 
                 except curses.error:
