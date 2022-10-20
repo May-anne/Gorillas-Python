@@ -1,4 +1,4 @@
-import curses, random, math, time
+import curses, random, time
 import numpy as np
 
 menu = ['Play', 'Ranking', 'Exit']
@@ -26,6 +26,27 @@ def print_menu(stdscr, selected_row_idx):
 
     stdscr.refresh()
 
+def Stay(stdscr):
+    stdscr.clear()
+    moldura(stdscr)
+    curses.echo()
+    curses.curs_set(1)
+
+    texto = 'Você deseja continuar? [s/n] '
+    
+    stdscr.addstr(10, w//2 - len(texto)//2, texto)
+    resposta = stdscr.getch()
+
+    curses.noecho()
+    curses.curs_set(0)
+
+    if(resposta == 's'):
+        Playing(stdscr)
+    elif(resposta == 'n'):
+        stdscr.endwin()
+    else:
+        stdscr.addstr(10, 20, 'Resposta inválida.')
+    
 def Playing(stdscr): #Função Jogandot
     jogador1 = ''
     jogador2 = ''
@@ -61,7 +82,7 @@ def Playing(stdscr): #Função Jogandot
             stdscr.refresh()
             h = random.randint(30, 40)
             hpredios.append(h)
-    
+
             c = c + 17
             stdscr.refresh()
 
@@ -87,7 +108,7 @@ def Playing(stdscr): #Função Jogandot
 
     vez=0
     
-    while(True):
+    while True: #Gera partidas consecutivas até que alguém acerte
 
         if(vez%2==0): #Jogador 1
             stdscr.refresh()
@@ -154,7 +175,8 @@ def Playing(stdscr): #Função Jogandot
                     if((x in range(143, 147) and (y in range(hmacaco2-2, hmacaco2+1)))): 
                         stdscr.addstr(10, 10, "Você acertou!", curses.color_pair(5))
                         stdscr.refresh()
-                        bananapad.clear()
+                        bananapad.clear
+                        Stay(stdscr)
                         break
                     elif(y in range(hpredio1, 40) and x in range(0, 17)):
                         stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
@@ -198,6 +220,7 @@ def Playing(stdscr): #Função Jogandot
 
                 except curses.error:
                         pass
+                        moldura(stdscr)
                         stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
                 
                 
@@ -289,9 +312,14 @@ def Playing(stdscr): #Função Jogandot
                         stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
                         bananapad.clear()
                         break
-                    elif(y1 in range(hmacaco1-2, hmacaco1+1) and x1 in range(6, 10)):
+                    elif(y1 in range(hpredio1, 40) and x1 in range(0, 17)):
+                        stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
+                        bananapad.clear()
+                        break
+                    elif(y1 in range(hmacaco1-2, hmacaco1+1) and x1 in range(6, 11)):
                         stdscr.addstr(10, 125, "Você acertou!", curses.color_pair(5))
                         bananapad.clear()
+                        Stay(stdscr)
                         break
 
                 except curses.error:
