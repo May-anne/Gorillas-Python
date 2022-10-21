@@ -4,9 +4,10 @@ import numpy as np
 menu = ['Play', 'Ranking', 'Exit']
 h = 41
 w = 154
+primeirojogador = ''
+segundojogador = ''
 
-#Menu da página inicial
-def print_menu(stdscr, selected_row_idx):
+def print_menu(stdscr, selected_row_idx): #Menu da página inicial
     stdscr.clear()
     moldura(stdscr)
     stdscr.addstr(10, w//2 - len('GORILLAS')//2, 'GORILLAS')
@@ -24,7 +25,7 @@ def print_menu(stdscr, selected_row_idx):
 
     stdscr.refresh()
 
-def KeepPlaying(stdscr):
+def KeepPlaying(stdscr): #Após vitória, pergunta aos usuários se eles desejam continuar jogando.
     stdscr.clear()
     moldura(stdscr)
 
@@ -37,32 +38,31 @@ def KeepPlaying(stdscr):
     while True:
         stdscr.refresh()
         
-        for idx, row in enumerate(respostas):
+        for idx, row in enumerate(respostas): #Muda a cor do texto ao descer com setas up e down
             x = w//2 - len(row)//2
             y = h//2 - len(respostas)//2 + idx
             if idx == selected:
                 stdscr.addstr(y, x, row, curses.color_pair(1))
             else:
                 stdscr.addstr(y, x, row)
-
         stdscr.refresh()
-        key = stdscr.getch()
 
+        #Avalia resposta do usuário com base nas setas
+        key = stdscr.getch() 
         if key == curses.KEY_UP and selected > 0:
             selected -= 1
         elif key == curses.KEY_DOWN and selected < len(respostas) - 1:
             selected += 1
-
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if(respostas[selected] == 'sim'):
-                Playing(stdscr)
+                Playing(stdscr) #Gera um novo mapa
             elif(respostas[selected] == 'não'):
-                main(stdscr)
+                main(stdscr) #Vai para o menu inicial
 
         stdscr.refresh()
         stdscr.getch()
     
-def Playing(stdscr): #Função Jogando
+def Playing(stdscr): #Inicia o jogo
     jogador1 = ''
     jogador2 = ''
 
@@ -70,7 +70,7 @@ def Playing(stdscr): #Função Jogando
 
     moldura(stdscr)
 
-    pad = curses.newpad(160, 200)
+    pad = curses.newpad(160, 200) #PAD dos prédios
     stdscr.refresh()
 
     #Pares de cores
@@ -79,18 +79,18 @@ def Playing(stdscr): #Função Jogando
     curses.init_pair(4, curses.COLOR_RED, curses.COLOR_BLACK) #Cor "Você errou."
     curses.init_pair(5, curses.COLOR_GREEN, curses.COLOR_BLACK) #Cor "Você acertou!"
     
-    hpredios = []
+    hpredios = [] #Armazena alturas geradas aleatoriamente
 
     for i in range(100):
         for j in range(50):
             pad.addstr('*', curses.color_pair(2))
     for k in range(1):
         h = random.randint(30, 40)
-        hpredio1 = h
+        hpredio1 = h #Armazena altura do 1º prédio
         c = 0
         pad.refresh(0, 0, h, c+1, 40, c+17)
         stdscr.refresh()
-        if(k==0):
+        if(k==0): #Posiciona o primeiro macaco
             hmacaco1=h-1
             cmacaco1=int((c+17)/2)
         for m in range(8):
@@ -98,12 +98,12 @@ def Playing(stdscr): #Função Jogando
             h = random.randint(30, 40)
             hpredios.append(h)
 
-            c = c + 17
+            c = c + 17 #Determina a largura dos prédios como 17
             stdscr.refresh()
 
             pad.refresh(0, 0, h, c+1, 40, c+17)
             stdscr.refresh()
-            if(m==7): 
+            if(m==7): #Posiciona o segundo macaco
                 hmacaco2=h-1
                 cmacaco2=int(c+17/2)
 
@@ -166,7 +166,7 @@ def Playing(stdscr): #Função Jogando
             bananapad = curses.newpad(160, 200)
             macacopad = curses.newpad(160,200)
 
-            for t in np.arange(0, tempoTotal+5, 0.1):
+            for t in np.arange(0, tempoTotal+5, 0.1): #Lançamento oblíquo para primeiro jogador
 
                 x = int((cmacaco1+3) + abs(vel0) * np.cos(angRAD) * t)
                 y = int((hmacaco1-1) - (abs(vel0) * np.sin(angRAD) * t) + ((g*(t**2))/2))
@@ -175,16 +175,12 @@ def Playing(stdscr): #Função Jogando
                 macacopad.addstr(' ')
                 
                 try:
-                    
+                    #Printa e limpa banana segundos depois
                     bananapad.refresh(0, 0, y, x, y, x)
                     time.sleep(0.05)  
                     macacopad.refresh(0, 0, y, x, y, x)
                     
                     stdscr.refresh()
-
-                    #stdscr.addstr(5, 10, 'y = {}'.format(str(y))) #Informa os valores de x e y conforme o sleep
-                    #stdscr.addstr(7, 10, 'x = {}'.format(str(x)))
-                    #stdscr.addstr(8, 10, str(hpredios))
 
                     #VERIFICAÇÃO DE COLISÃO: JOGADOR 1
                     if((x in range(143, 147) and (y in range(hmacaco2-3, hmacaco2+1)))): 
@@ -233,7 +229,7 @@ def Playing(stdscr): #Função Jogando
                         stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
                         break
 
-                except curses.error:
+                except curses.error: #Trata o erro caso a banana ultrapasse a tela do console
                         pass
                         moldura(stdscr)
                         stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
@@ -275,7 +271,7 @@ def Playing(stdscr): #Função Jogando
 
             tempoTotal1 = round((((2*vel1) * np.sin(angulo2)) / g), 1)
 
-            for t in np.arange(0, tempoTotal1+5, 0.1):
+            for t in np.arange(0, tempoTotal1+5, 0.1): #Lançamento oblíquo para o segundo jogador
 
                 x1 = int((cmacaco2-1) - abs(vel1) * np.cos(angulo2) * t)
                 y1 = int((hmacaco2-1) - (abs(vel1) * np.sin(angulo2) * t) + ((g*(t**2))/2))
@@ -290,9 +286,6 @@ def Playing(stdscr): #Função Jogando
                     macacopad.refresh(0, 0, y1, x1, y1, x1)
                     
                     stdscr.refresh()
-
-                    stdscr.addstr(5, 10, 'y = {}'.format(str(y1))) #Informa os valores de x e y conforme o sleep
-                    stdscr.addstr(7, 10, 'x = {}'.format(str(x1)))
 
                     #VERIFICAÇÃO DE COLISÃO: JOGADOR 2
                     if(y1 in range(hpredios[7], 40) and x1 in range(137, 154)):
@@ -337,7 +330,7 @@ def Playing(stdscr): #Função Jogando
                         KeepPlaying(stdscr)
                         break
 
-                except curses.error:
+                except curses.error: #Trata o erro caso a banana ultrapasse a tela do console
                         pass
                         stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
                 
@@ -363,7 +356,7 @@ def main(stdscr):
     current_row_idx = 0
     print_menu(stdscr, current_row_idx)
 
-    #Loop do Menu: espera resposta do usuário pelo teclado
+    #Loop do Menu: espera resposta do usuário pelo teclado por meio das setas
     while True:
         key = stdscr.getch()
         stdscr.clear()
