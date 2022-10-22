@@ -9,6 +9,7 @@ placar2 = 0
 valorLevel = 0
 
 menu = ['Play', 'Ranking', 'Exit']
+level = ['Fácil', 'Normal', 'Difícil']
 h = 41
 w = 154
 
@@ -31,16 +32,15 @@ def print_menu(stdscr, selected_row_idx): #Menu da página inicial
     stdscr.refresh()
 
 def PickLevel(stdscr):
+
     stdscr.clear()
     moldura(stdscr)
+    selected = 0
     texto = 'ESCOLHA A DIFICULDADE:'
 
     stdscr.addstr(h//2-5, w//2 - len(texto)//2, texto)
-    level = ['Fácil', 'Normal', 'Difícil']
-    selected = 0
-
+    
     while True:
-        stdscr.refresh()
         for idx, row in enumerate(level): #Muda a cor do texto ao descer com setas up e down
             x = w//2 - len(row)//2
             y = h//2 - len(level)//2 + idx
@@ -48,10 +48,11 @@ def PickLevel(stdscr):
                 stdscr.addstr(y, x, row, curses.color_pair(1))
             else:
                 stdscr.addstr(y, x, row)
+        stdscr.addstr(10, 10, str(selected))
         stdscr.refresh()
-        
         #Avalia resposta do usuário com base nas setas
-        key = stdscr.getch() 
+        key = stdscr.getch()
+
         if key == curses.KEY_UP and selected > 0:
             selected -= 1
         elif key == curses.KEY_DOWN and selected < len(level) - 1:
@@ -66,10 +67,11 @@ def PickLevel(stdscr):
             elif(level[selected] == 'Difícil'):
                 valorLevel = 20
                 Playing(stdscr, valorLevel)
-
+            
+            stdscr.refresh()
+            stdscr.getch()
+        
         stdscr.refresh()
-        stdscr.getch()
-
 
 def KeepPlaying(stdscr): #Após vitória, pergunta aos usuários se eles desejam continuar jogando.
     stdscr.clear()
@@ -105,8 +107,8 @@ def KeepPlaying(stdscr): #Após vitória, pergunta aos usuários se eles desejam
             elif(respostas[selected] == 'Não'):
                 main(stdscr) #Vai para o menu inicial
 
-        stdscr.refresh()
-        stdscr.getch()
+            stdscr.getch()
+            stdscr.refresh()
     
 def Playing(stdscr, level): #Inicia o jogo
     global jogador1
