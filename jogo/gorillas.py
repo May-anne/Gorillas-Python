@@ -31,7 +31,7 @@ def print_menu(stdscr, selected_row_idx): #Menu da página inicial
 
     stdscr.refresh()
 
-def PickLevel(stdscr):
+def PickLevel(stdscr): #Pergunta ao usuário qual dificuldade deseja
     
     global valorLevel
     stdscr.clear()
@@ -133,7 +133,7 @@ def Playing(stdscr, level): #Inicia o jogo
     hpredios = [] #Armazena alturas geradas aleatoriamente
 
     for i in range(100):
-        for j in range(100):
+        for j in range(70):
             pad.addstr('*', curses.color_pair(2))
     for k in range(1):
         h = random.randint(level, 40)
@@ -190,6 +190,7 @@ def Playing(stdscr, level): #Inicia o jogo
                 stdscr.refresh()
             else:
                 stdscr.addstr(2, 2, 'Nome Jogador 1: {}'.format(jogador1))
+                stdscr.addstr(5, 2, 'Placar: {}'.format(placar1))
 
             stdscr.addstr(3, 2,'Angulo: ')
             angulo = int(stdscr.getstr())
@@ -299,6 +300,8 @@ def Playing(stdscr, level): #Inicia o jogo
             else:
                 stdscr.refresh()
                 stdscr.addstr(2, 125, 'Nome Jogador 2: {}'.format(jogador2))
+                stdscr.addstr(5, 125, 'Placar: {}'.format(placar2))
+
 
             stdscr.addstr(3, 125,'Angulo: ')
             angulo2 = np.deg2rad(int(stdscr.getstr()))
