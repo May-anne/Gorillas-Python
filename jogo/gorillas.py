@@ -6,6 +6,8 @@ jogador2 = ''
 placar1 = 0
 placar2 = 0
 
+valorLevel = 0
+
 menu = ['Play', 'Ranking', 'Exit']
 h = 41
 w = 154
@@ -56,11 +58,14 @@ def PickLevel(stdscr):
             selected += 1
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if(level[selected] == 'Fácil'):
-                Playing(stdscr, 30)
+                valorLevel = 30
+                Playing(stdscr, valorLevel)
             elif(level[selected] == 'Normal'):
-                Playing(stdscr, 25)
+                valorLevel = 25
+                Playing(stdscr, valorLevel)
             elif(level[selected] == 'Difícil'):
-                Playing(stdscr, 20)
+                valorLevel = 20
+                Playing(stdscr, valorLevel)
 
         stdscr.refresh()
         stdscr.getch()
@@ -69,6 +74,7 @@ def PickLevel(stdscr):
 def KeepPlaying(stdscr): #Após vitória, pergunta aos usuários se eles desejam continuar jogando.
     stdscr.clear()
     moldura(stdscr)
+    global valorLevel
 
     respostas = ['Sim', 'Não']
     texto = 'Você deseja continuar?'
@@ -94,9 +100,9 @@ def KeepPlaying(stdscr): #Após vitória, pergunta aos usuários se eles desejam
         elif key == curses.KEY_DOWN and selected < len(respostas) - 1:
             selected += 1
         elif key == curses.KEY_ENTER or key in [10, 13]:
-            if(respostas[selected] == 'sim'):
-                Playing(stdscr) #Gera um novo mapa
-            elif(respostas[selected] == 'não'):
+            if(respostas[selected] == 'Sim'):
+                Playing(stdscr, valorLevel) #Gera um novo mapa
+            elif(respostas[selected] == 'Não'):
                 main(stdscr) #Vai para o menu inicial
 
         stdscr.refresh()
@@ -124,7 +130,7 @@ def Playing(stdscr, level): #Inicia o jogo
     hpredios = [] #Armazena alturas geradas aleatoriamente
 
     for i in range(100):
-        for j in range(50):
+        for j in range(100):
             pad.addstr('*', curses.color_pair(2))
     for k in range(1):
         h = random.randint(level, 40)
@@ -218,7 +224,7 @@ def Playing(stdscr, level): #Inicia o jogo
                     stdscr.refresh()
 
                     #VERIFICAÇÃO DE COLISÃO: JOGADOR 1
-                    if((x in range(143, 147) and (y in range(hmacaco2-3, hmacaco2+1)))): 
+                    if((x in range(143, 147) and (y in range(hmacaco2-3, hmacaco2+2)))): 
                         stdscr.addstr(10, 10, "Você acertou!", curses.color_pair(5))
                         placar1 += 1
                         stdscr.refresh()
