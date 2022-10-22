@@ -9,7 +9,6 @@ placar2 = 0
 valorLevel = 0
 
 menu = ['Play', 'Ranking', 'Exit']
-level = ['Fácil', 'Normal', 'Difícil']
 h = 41
 w = 154
 
@@ -38,6 +37,7 @@ def PickLevel(stdscr): #Pergunta ao usuário qual dificuldade deseja
     moldura(stdscr)
     selected = 0
     texto = 'ESCOLHA A DIFICULDADE:'
+    level = ['Fácil', 'Normal', 'Difícil']
 
     stdscr.addstr(h//2-5, w//2 - len(texto)//2, texto)
     
@@ -49,7 +49,7 @@ def PickLevel(stdscr): #Pergunta ao usuário qual dificuldade deseja
                 stdscr.addstr(y, x, row, curses.color_pair(1))
             else:
                 stdscr.addstr(y, x, row)
-        stdscr.addstr(10, 10, str(selected))
+
         stdscr.refresh()
         #Avalia resposta do usuário com base nas setas
         key = stdscr.getch()
@@ -277,9 +277,7 @@ def Playing(stdscr, level): #Inicia o jogo
                 except curses.error: #Trata o erro caso a banana ultrapasse a tela do console
                         pass
                         moldura(stdscr)
-                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
-                
-                
+                        stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))    
             stdscr.refresh()
             stdscr.getch()
             
@@ -301,7 +299,6 @@ def Playing(stdscr, level): #Inicia o jogo
                 stdscr.refresh()
                 stdscr.addstr(2, 125, 'Nome Jogador 2: {}'.format(jogador2))
                 stdscr.addstr(5, 125, 'Placar: {}'.format(placar2))
-
 
             stdscr.addstr(3, 125,'Angulo: ')
             angulo2 = np.deg2rad(int(stdscr.getstr()))
