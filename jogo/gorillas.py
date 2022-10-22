@@ -184,7 +184,6 @@ def Playing(stdscr): #Inicia o jogo
                     bananapad.refresh(0, 0, y, x, y, x)
                     time.sleep(0.05)  
                     macacopad.refresh(0, 0, y, x, y, x)
-                    
                     stdscr.refresh()
 
                     #VERIFICAÇÃO DE COLISÃO: JOGADOR 1
@@ -285,11 +284,10 @@ def Playing(stdscr): #Inicia o jogo
                 macacopad.addstr(' ')
                 
                 try:
-                    
+                    #Printa e limpa banana segundos depois
                     bananapad.refresh(0, 0, y1, x1, y1, x1)
                     time.sleep(0.05)  
                     macacopad.refresh(0, 0, y1, x1, y1, x1)
-                    
                     stdscr.refresh()
 
                     #VERIFICAÇÃO DE COLISÃO: JOGADOR 2
@@ -341,11 +339,9 @@ def Playing(stdscr): #Inicia o jogo
                 
             stdscr.refresh()
             stdscr.getch()
-
         vez+=1
 
-#Borda do jogo
-def moldura(stdscr):
+def moldura(stdscr): #Borda do jogo
     curses.init_pair(6, curses.COLOR_WHITE, curses.COLOR_CYAN)
     for i in range(h+1):
         stdscr.addstr(i, 0, '#', curses.color_pair(6))
@@ -354,16 +350,17 @@ def moldura(stdscr):
         stdscr.addstr(0, i, '#', curses.color_pair(6))
         stdscr.addstr(h, i, '#', curses.color_pair(6))
 
-def Ranking(stdscr):
+def Ranking(stdscr): #Exibe o ranking dos jogadores
     stdscr.clear()
     moldura(stdscr)
+    texto = 'RANKING DE JOGADORES'
 
     global jogador1
     global jogador2
     global placar1
     global placar2
 
-    stdscr.addstr(h//2, w//2 - len('RANKING DE JOGADORES')//2, 'RANKING DE JOGADORES')
+    stdscr.addstr(h//2, w//2 - len(texto)//2, texto)
     stdscr.addstr(h//2 + 1, w//2, '{}: {}'.format(jogador1, placar1))
     stdscr.addstr(h//2 + 2, w//2, '{}: {}'. format(jogador2, placar2))
 
