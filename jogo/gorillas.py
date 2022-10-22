@@ -1,11 +1,14 @@
 import curses, random, time
 import numpy as np
+jogador1 = ''
+jogador2 = ''
+
+placar1 = 0
+placar2 = 0
 
 menu = ['Play', 'Ranking', 'Exit']
 h = 41
 w = 154
-primeirojogador = ''
-segundojogador = ''
 
 def print_menu(stdscr, selected_row_idx): #Menu da página inicial
     stdscr.clear()
@@ -63,8 +66,10 @@ def KeepPlaying(stdscr): #Após vitória, pergunta aos usuários se eles desejam
         stdscr.getch()
     
 def Playing(stdscr): #Inicia o jogo
-    jogador1 = ''
-    jogador2 = ''
+    global jogador1
+    global jogador2
+    global placar1
+    global placar2
 
     stdscr.clear()
 
@@ -185,10 +190,10 @@ def Playing(stdscr): #Inicia o jogo
                     #VERIFICAÇÃO DE COLISÃO: JOGADOR 1
                     if((x in range(143, 147) and (y in range(hmacaco2-3, hmacaco2+1)))): 
                         stdscr.addstr(10, 10, "Você acertou!", curses.color_pair(5))
+                        placar1 += 1
                         stdscr.refresh()
-                        bananapad.clear
+                        bananapad.clear()
                         KeepPlaying(stdscr)
-                        break
                     elif(y in range(hpredio1, 40) and x in range(0, 17)):
                         stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))
                         bananapad.clear()
@@ -326,9 +331,9 @@ def Playing(stdscr): #Inicia o jogo
                         break
                     elif(y1 in range(hmacaco1-3, hmacaco1+1) and x1 in range(6, 11)):
                         stdscr.addstr(10, 125, "Você acertou!", curses.color_pair(5))
+                        placar2 += 1
                         bananapad.clear()
                         KeepPlaying(stdscr)
-                        break
 
                 except curses.error: #Trata o erro caso a banana ultrapasse a tela do console
                         pass
@@ -348,6 +353,19 @@ def moldura(stdscr):
     for i in range(w):
         stdscr.addstr(0, i, '#', curses.color_pair(6))
         stdscr.addstr(h, i, '#', curses.color_pair(6))
+
+def Ranking(stdscr):
+    stdscr.clear()
+    moldura(stdscr)
+
+    global jogador1
+    global jogador2
+    global placar1
+    global placar2
+
+    stdscr.addstr(h//2, w//2 - len('RANKING DE JOGADORES')//2, 'RANKING DE JOGADORES')
+    stdscr.addstr(h//2 + 1, w//2, '{}: {}'.format(jogador1, placar1))
+    stdscr.addstr(h//2 + 2, w//2, '{}: {}'. format(jogador2, placar2))
 
 def main(stdscr):
     curses.curs_set(0)
@@ -369,7 +387,7 @@ def main(stdscr):
             if(menu[current_row_idx] == 'Play'):
                 Playing(stdscr)
             elif(menu[current_row_idx] == 'Ranking'):
-                stdscr.addstr('hey')
+                Ranking(stdscr)
             elif(menu[current_row_idx] == 'Exit'):
                 stdscr.endwin()
 
