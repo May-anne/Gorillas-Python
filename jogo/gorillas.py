@@ -32,7 +32,8 @@ def print_menu(stdscr, selected_row_idx): #Menu da página inicial
     stdscr.refresh()
 
 def PickLevel(stdscr):
-
+    
+    global valorLevel
     stdscr.clear()
     moldura(stdscr)
     selected = 0
