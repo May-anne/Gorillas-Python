@@ -28,11 +28,49 @@ def print_menu(stdscr, selected_row_idx): #Menu da página inicial
 
     stdscr.refresh()
 
+def PickLevel(stdscr):
+    stdscr.clear()
+    moldura(stdscr)
+    texto = 'ESCOLHA A DIFICULDADE:'
+
+    stdscr.addstr(h//2-5, w//2 - len(texto)//2, texto)
+    level = ['Fácil', 'Normal', 'Difícil']
+    selected = 0
+
+    while True:
+        stdscr.refresh()
+        for idx, row in enumerate(level): #Muda a cor do texto ao descer com setas up e down
+            x = w//2 - len(row)//2
+            y = h//2 - len(level)//2 + idx
+            if idx == selected:
+                stdscr.addstr(y, x, row, curses.color_pair(1))
+            else:
+                stdscr.addstr(y, x, row)
+        stdscr.refresh()
+        
+        #Avalia resposta do usuário com base nas setas
+        key = stdscr.getch() 
+        if key == curses.KEY_UP and selected > 0:
+            selected -= 1
+        elif key == curses.KEY_DOWN and selected < len(level) - 1:
+            selected += 1
+        elif key == curses.KEY_ENTER or key in [10, 13]:
+            if(level[selected] == 'Fácil'):
+                Playing(stdscr, 30)
+            elif(level[selected] == 'Normal'):
+                Playing(stdscr, 25)
+            elif(level[selected] == 'Difícil'):
+                Playing(stdscr, 20)
+
+        stdscr.refresh()
+        stdscr.getch()
+
+
 def KeepPlaying(stdscr): #Após vitória, pergunta aos usuários se eles desejam continuar jogando.
     stdscr.clear()
     moldura(stdscr)
 
-    respostas =['sim', 'não']
+    respostas = ['Sim', 'Não']
     texto = 'Você deseja continuar?'
     stdscr.addstr(10, w//2 - len(texto)//2, texto)
 
@@ -40,7 +78,6 @@ def KeepPlaying(stdscr): #Após vitória, pergunta aos usuários se eles desejam
 
     while True:
         stdscr.refresh()
-        
         for idx, row in enumerate(respostas): #Muda a cor do texto ao descer com setas up e down
             x = w//2 - len(row)//2
             y = h//2 - len(respostas)//2 + idx
@@ -65,7 +102,7 @@ def KeepPlaying(stdscr): #Após vitória, pergunta aos usuários se eles desejam
         stdscr.refresh()
         stdscr.getch()
     
-def Playing(stdscr): #Inicia o jogo
+def Playing(stdscr, level): #Inicia o jogo
     global jogador1
     global jogador2
     global placar1
@@ -90,7 +127,7 @@ def Playing(stdscr): #Inicia o jogo
         for j in range(50):
             pad.addstr('*', curses.color_pair(2))
     for k in range(1):
-        h = random.randint(30, 40)
+        h = random.randint(level, 40)
         hpredio1 = h #Armazena altura do 1º prédio
         c = 0
         pad.refresh(0, 0, h, c+1, 40, c+17)
@@ -100,7 +137,7 @@ def Playing(stdscr): #Inicia o jogo
             cmacaco1=int((c+17)/2)
         for m in range(8):
             stdscr.refresh()
-            h = random.randint(30, 40)
+            h = random.randint(level, 40)
             hpredios.append(h)
 
             c = c + 17 #Determina a largura dos prédios como 17
@@ -125,11 +162,9 @@ def Playing(stdscr): #Inicia o jogo
         stdscr.addstr(hmacaco2,cmacaco2,'/ \\')
 
         stdscr.refresh()
-
     vez=0
     
     while True: #Gera partidas consecutivas até que alguém acerte
-
         if(vez%2==0): #Jogador 1
             stdscr.refresh()
             curses.echo()
@@ -163,8 +198,6 @@ def Playing(stdscr): #Inicia o jogo
             #Dados gerais para lançamento:
             angRAD = np.deg2rad(angulo)
             g = 10
-            alcanceMax = round(((vel0**2) * np.sin(2*angRAD)) / g, 1)
-            alturaMax = round((vel0*2) * (np.sin(angRAD))*2 / (2*g), 1)
             tempoTotal = round((((2*vel0) * np.sin(angRAD)) / g), 1)
 
             #PADs de lançamento:
@@ -172,10 +205,8 @@ def Playing(stdscr): #Inicia o jogo
             macacopad = curses.newpad(160,200)
 
             for t in np.arange(0, tempoTotal+5, 0.1): #Lançamento oblíquo para primeiro jogador
-
                 x = int((cmacaco1+3) + abs(vel0) * np.cos(angRAD) * t)
                 y = int((hmacaco1-1) - (abs(vel0) * np.sin(angRAD) * t) + ((g*(t**2))/2))
-        
                 bananapad.addstr('Z', curses.color_pair(3))
                 macacopad.addstr(' ')
                 
@@ -276,10 +307,8 @@ def Playing(stdscr): #Inicia o jogo
             tempoTotal1 = round((((2*vel1) * np.sin(angulo2)) / g), 1)
 
             for t in np.arange(0, tempoTotal1+5, 0.1): #Lançamento oblíquo para o segundo jogador
-
                 x1 = int((cmacaco2-1) - abs(vel1) * np.cos(angulo2) * t)
                 y1 = int((hmacaco2-1) - (abs(vel1) * np.sin(angulo2) * t) + ((g*(t**2))/2))
-        
                 bananapad.addstr('Z', curses.color_pair(3))
                 macacopad.addstr(' ')
                 
@@ -382,7 +411,7 @@ def main(stdscr):
             current_row_idx += 1
         elif key == curses.KEY_ENTER or key in [10, 13]:
             if(menu[current_row_idx] == 'Play'):
-                Playing(stdscr)
+                PickLevel(stdscr)
             elif(menu[current_row_idx] == 'Ranking'):
                 Ranking(stdscr)
             elif(menu[current_row_idx] == 'Exit'):
