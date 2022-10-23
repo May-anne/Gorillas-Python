@@ -232,6 +232,7 @@ def Playing(stdscr, level): #Inicia o jogo
                         stdscr.addstr(10, 10, "Você acertou!", curses.color_pair(5))
                         placar1 += 1
                         stdscr.refresh()
+                        time.sleep(0.7)
                         bananapad.clear()
                         KeepPlaying(stdscr)
                     elif(y in range(hpredio1, 40) and x in range(0, 17)):
@@ -368,6 +369,8 @@ def Playing(stdscr, level): #Inicia o jogo
                     elif(y1 in range(hmacaco1-3, hmacaco1+1) and x1 in range(6, 11)):
                         stdscr.addstr(10, 125, "Você acertou!", curses.color_pair(5))
                         placar2 += 1
+                        stdscr.refresh()
+                        time.sleep(0.7)
                         bananapad.clear()
                         KeepPlaying(stdscr)
 
