@@ -131,10 +131,14 @@ def Playing(stdscr, level): #Inicia o jogo
     curses.init_pair(5, curses.COLOR_GREEN, curses.COLOR_BLACK) #Cor "Você acertou!"
     
     hpredios = [] #Armazena alturas geradas aleatoriamente
-
+    flag = 0
     for i in range(100):
-        for j in range(70):
+        for j in range(50):
             pad.addstr('*', curses.color_pair(2))
+            flag = flag + 1
+            if(flag == 17):
+                pad.addstr('*', curses.color_pair(3))
+
     for k in range(1):
         h = random.randint(level, 40)
         hpredio1 = h #Armazena altura do 1º prédio
@@ -280,7 +284,7 @@ def Playing(stdscr, level): #Inicia o jogo
                         moldura(stdscr)
                         stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))    
             stdscr.refresh()
-            stdscr.getch()
+            #stdscr.getch()
             
         else: #Jogador 2
             pass
@@ -379,7 +383,7 @@ def Playing(stdscr, level): #Inicia o jogo
                         stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
                 
             stdscr.refresh()
-            stdscr.getch()
+            #stdscr.getch()
         vez+=1
 
 def moldura(stdscr): #Borda do jogo
