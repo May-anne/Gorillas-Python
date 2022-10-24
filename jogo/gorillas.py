@@ -131,13 +131,9 @@ def Playing(stdscr, level): #Inicia o jogo
     curses.init_pair(5, curses.COLOR_GREEN, curses.COLOR_BLACK) #Cor "Você acertou!"
     
     hpredios = [] #Armazena alturas geradas aleatoriamente
-    flag = 0
     for i in range(100):
         for j in range(50):
             pad.addstr('*', curses.color_pair(2))
-            flag = flag + 1
-            if(flag == 17):
-                pad.addstr('*', curses.color_pair(3))
 
     for k in range(1):
         h = random.randint(level, 40)
