@@ -280,6 +280,7 @@ def Playing(stdscr, level): #Inicia o jogo
                         moldura(stdscr)
                         stdscr.addstr(10, 10, "Você errou", curses.color_pair(4))    
             stdscr.refresh()
+            time.sleep(0.7)
             #stdscr.getch()
             
         else: #Jogador 2
@@ -379,6 +380,7 @@ def Playing(stdscr, level): #Inicia o jogo
                         stdscr.addstr(10, 125, "Você errou", curses.color_pair(4))
                 
             stdscr.refresh()
+            time.sleep(0.7)
             #stdscr.getch()
         vez+=1
 
