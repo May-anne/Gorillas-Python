@@ -190,7 +190,9 @@ def Playing(stdscr, level): #Inicia o jogo
                 stdscr.refresh()
             else:
                 stdscr.addstr(2, 2, 'Nome Jogador 1: {}'.format(jogador1))
+                stdscr.addstr(2, 125, 'Nome Jogador 2: {}'.format(jogador2))
                 stdscr.addstr(5, 2, 'Placar: {}'.format(placar1))
+                stdscr.addstr(5, 125, 'Placar: {}'.format(placar2))
 
             stdscr.addstr(3, 2,'Angulo: ')
             angulo = int(stdscr.getstr())
@@ -298,9 +300,7 @@ def Playing(stdscr, level): #Inicia o jogo
                 moldura(stdscr)
                 stdscr.refresh()
             else:
-                stdscr.refresh()
                 stdscr.addstr(2, 125, 'Nome Jogador 2: {}'.format(jogador2))
-                stdscr.addstr(5, 125, 'Placar: {}'.format(placar2))
 
             stdscr.addstr(3, 125,'Angulo: ')
             angulo2 = np.deg2rad(int(stdscr.getstr()))
