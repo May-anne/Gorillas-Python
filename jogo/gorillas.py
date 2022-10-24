@@ -405,9 +405,12 @@ def Ranking(stdscr): #Exibe o ranking dos jogadores
     global placar1
     global placar2
 
+    texto1 = '{}: {}'.format(jogador1, placar1)
+    texto2 = '{}: {}'.format(jogador2, placar2)
+
     stdscr.addstr(h//2, w//2 - len(texto)//2, texto)
-    stdscr.addstr(h//2 + 1, w//2, '{}: {}'.format(jogador1, placar1))
-    stdscr.addstr(h//2 + 2, w//2, '{}: {}'. format(jogador2, placar2))
+    stdscr.addstr(h//2 + 1, w//2 - len(texto1)//2, texto1)
+    stdscr.addstr(h//2 + 2, w//2 - len(texto2)//2, texto2)
 
 def main(stdscr):
     curses.curs_set(0)
