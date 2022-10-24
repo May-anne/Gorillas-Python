@@ -195,14 +195,26 @@ def Playing(stdscr, level): #Inicia o jogo
                 stdscr.addstr(5, 125, 'Placar: {}'.format(placar2))
 
             stdscr.addstr(3, 2,'Angulo: ')
-            angulo = int(stdscr.getstr())
-            moldura(stdscr)
-            stdscr.refresh()
+            try:
+                angulo = int(stdscr.getstr())
+                moldura(stdscr)
+                stdscr.refresh()
+            except ValueError:
+                stdscr.addstr(3, 2,'Angulo: ')
+                angulo = int(stdscr.getstr())
+                moldura(stdscr)
+                stdscr.refresh()
 
             stdscr.addstr(4, 2,'Velocidade: ')
-            vel0= int(stdscr.getstr())
-            moldura(stdscr)
-            stdscr.refresh()
+            try:
+                vel0= int(stdscr.getstr())
+                moldura(stdscr)
+                stdscr.refresh()
+            except ValueError:
+                stdscr.addstr(4, 2,'Velocidade: ')
+                vel0= int(stdscr.getstr())
+                moldura(stdscr)
+                stdscr.refresh()
 
             curses.noecho()
             curses.curs_set(0)
@@ -303,14 +315,26 @@ def Playing(stdscr, level): #Inicia o jogo
                 stdscr.addstr(2, 125, 'Nome Jogador 2: {}'.format(jogador2))
 
             stdscr.addstr(3, 125,'Angulo: ')
-            angulo2 = np.deg2rad(int(stdscr.getstr()))
-            moldura(stdscr)
-            stdscr.refresh()
+            try:
+                angulo2 = np.deg2rad(int(stdscr.getstr()))
+                moldura(stdscr)
+                stdscr.refresh()
+            except ValueError:
+                stdscr.addstr(3, 125,'Angulo: ')
+                angulo2 = np.deg2rad(int(stdscr.getstr()))
+                moldura(stdscr)
+                stdscr.refresh()
 
             stdscr.addstr(4,125,'Velocidade: ')
-            vel1= int(stdscr.getstr())
-            moldura(stdscr)
-            stdscr.refresh()
+            try:
+                vel1= int(stdscr.getstr())
+                moldura(stdscr)
+                stdscr.refresh()
+            except ValueError:
+                stdscr.addstr(4,125,'Velocidade: ')
+                vel1= int(stdscr.getstr())
+                moldura(stdscr)
+                stdscr.refresh()
 
             curses.noecho()
             curses.curs_set(0)
